@@ -8,12 +8,11 @@ def preprocess_image(image_path):
     image = Image.open(image_path).convert('RGB')
     image = image.resize((150, 150))
     image = np.array(image).astype(np.float32)
-    image = image / 255.0  # Normalisieren der Pixelwerte
-    image = np.expand_dims(image, axis=0)  # Hinzufügen der Batch-Dimension
+    image = image / 255.0  # Normalisieren Pixelwerte
+    image = np.expand_dims(image, axis=0)  # Hinzufügen Batch-Dim.
     return image
 
 
-# Lade und preprocess das Bild
 input_img = preprocess_image("/home/ben/code/schilderkennung/data/right/1715362113949410008.jpg")
 
 prediction = model.predict(input_img)
