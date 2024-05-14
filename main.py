@@ -4,7 +4,7 @@ from tensorflow import keras
 
 train_dir = '/home/ben/code/schilderkennung/data'
 
-img_size = (150, 150)
+img_size = (96, 80)
 batch_size = 32
 
 train_generator = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -30,7 +30,7 @@ validation_generator = tf.keras.preprocessing.image.ImageDataGenerator(
 )
 
 model = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(96, 80, 3)),
     layers.MaxPooling2D((2, 2)),
     layers.Conv2D(64, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
@@ -47,6 +47,8 @@ model = models.Sequential([
 model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
+
+model.summary()
 
 history = model.fit(
     train_generator,
