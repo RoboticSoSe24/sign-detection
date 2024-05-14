@@ -48,6 +48,8 @@ model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
+model.summary()
+
 history = model.fit(
     train_generator,
     steps_per_epoch=train_generator.samples // batch_size,
