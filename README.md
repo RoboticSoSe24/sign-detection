@@ -4,8 +4,8 @@ road sign image classifier for ros2 turtlebot (SomSem. 2024 Robotics Project)
 
 ## Models
 - model_0
-  - total params: 2,984 (11.66 KB)
-  - validation accuracy: ~99%
+  - total params: 6,215 (24.28 KB)
+  - validation accuracy: ~97%
 
 ## Execution 
 
