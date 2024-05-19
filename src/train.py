@@ -20,17 +20,17 @@ dataset = keras.utils.image_dataset_from_directory(
 
 model = models.Sequential([
     layers.Input(shape=img_size),
-    layers.Conv2D(4, (3, 3), activation='relu'),
-    layers.MaxPooling2D((2, 2)),
     layers.Conv2D(8, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(8, (3, 3), activation='relu'),
+    layers.Conv2D(12, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(4, (3, 3), activation='relu'),
+    layers.Conv2D(16, (3, 3), activation='relu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(6, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
     layers.Flatten(),
     layers.Dense(32, activation='relu'),
-    layers.Dense(4, activation='softmax')
+    layers.Dense(5, activation='softmax')
 ])
 
 
