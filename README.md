@@ -5,9 +5,11 @@ road sign image classifier for ros2 turtlebot (SomSem. 2024 Robotics Project)
 - Data2
   - only turtlebot nr 60
   - none: other signs and empty room
+  - (45, 40)
 - data
     - turtlebot nr 60, 80, 30
     - in different lighting situations
+    - (96, 80)
 ## Models
 - model_0
   - total params: 6,215 (24.28 KB)
