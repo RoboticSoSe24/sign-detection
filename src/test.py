@@ -1,26 +1,54 @@
 import tensorflow as tf
 import numpy as np
-from PIL import Image
+
+import cv2
+
 
 
 data_dir = '../data'
 model_dir = '../models'
 
+img_size = (50, 42, 1)
+
+batch_size = 32
+
+
+# load categorized images from folders and convert to grayscale
+dataset = tf.keras.utils.image_dataset_from_directory(
+    directory=data_dir,
+    label_mode='categorical',
+    color_mode='grayscale',
+    batch_size=batch_size,
+    image_size=img_size[:2],
+    seed=42)
+
+
+# rescale pixel values to lie in range [0,1]
+rescale = tf.keras.layers.Rescaling(scale=1.0/255)
+dataset = dataset.map(lambda image,label:(rescale(image),label))
+
+
+# load trained model
 model = tf.keras.models.load_model(model_dir + '/model_0.keras')
 
-def preprocess_image(image_path):
-    image = Image.open(image_path).convert('RGB')
-    image = image.resize((150, 150))
-    image = np.array(image).astype(np.float32)
-    image = image / 255.0  # normalize pixel values
-    image = np.expand_dims(image, axis=0)  # add Batch-Dim.
-    return image
+
+# evaluate on entire dataset
+eval = model.evaluate(dataset)
+print(eval)
 
 
-input_img = preprocess_image(data_dir + '/right/1715362113949410008.jpg')
+# manually walk through images
+for element in dataset:
+    for i in range(len(element[0])):
+        label = np.argmax(element[1][i])
+        img = np.array(element[0][i])
 
-prediction = model.predict(input_img)
-print(prediction)
+        prediction = model.predict(np.expand_dims(img,axis=0))
+        predicted_class = np.argmax(prediction, axis=1)
 
-predicted_class = np.argmax(prediction, axis=1)
-print(predicted_class)
+        text = str(label) + '/' + str(predicted_class[0])
+        cv2.putText(img, text, (2,12), cv2.FONT_HERSHEY_PLAIN, 1.0, (0,0,0), 3)
+        cv2.putText(img, text, (2,12), cv2.FONT_HERSHEY_PLAIN, 1.0, (255,255,255), 1)
+
+        cv2.imshow('image', img)
+        cv2.waitKey(0)
